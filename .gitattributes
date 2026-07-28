@@ -1,0 +1,4 @@
+* text=auto
+
+# GitHub Pages reads CNAME literally — a CRLF here can break domain detection.
+CNAME text eol=lf

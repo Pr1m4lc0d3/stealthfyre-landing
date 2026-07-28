@@ -1,0 +1,73 @@
+STEALTHFYRE.COM — DNS SETUP FOR GITHUB PAGES
+=============================================
+
+Registrar: Squarespace Domains
+Current state: A record still points at 50.6.226.52 (the dead cPanel host).
+               That record is stale and must be removed.
+
+
+STEP 1 — PUSH THE SITE FIRST
+----------------------------
+Create a public GitHub repo (suggested name: stealthfyre-landing) and push the
+contents of this folder to the `main` branch. In the repo:
+
+    Settings -> Pages -> Build and deployment
+      Source: Deploy from a branch
+      Branch: main   /  (root)
+
+The CNAME file in this folder tells GitHub the custom domain. Do the DNS change
+AFTER the site is live at <your-username>.github.io/stealthfyre-landing, so you
+can tell a DNS problem apart from a build problem.
+
+
+STEP 2 — REPLACE THE DNS RECORDS
+--------------------------------
+DELETE the existing A record pointing to 50.6.226.52.
+
+ADD these four A records for the apex (host: @ or blank):
+
+    A     @     185.199.108.153
+    A     @     185.199.109.153
+    A     @     185.199.110.153
+    A     @     185.199.111.153
+
+ADD these four AAAA records (IPv6 — optional but recommended):
+
+    AAAA  @     2606:50c0:8000::153
+    AAAA  @     2606:50c0:8001::153
+    AAAA  @     2606:50c0:8002::153
+    AAAA  @     2606:50c0:8003::153
+
+ADD one CNAME for www — replace <your-username> with your GitHub username:
+
+    CNAME www   <your-username>.github.io
+
+Leave MX records alone if you ever want email on this domain. Changing the A
+records does not affect mail.
+
+
+STEP 3 — ENABLE HTTPS
+---------------------
+Back in Settings -> Pages, wait for the domain check to pass, then tick
+"Enforce HTTPS". The certificate is issued automatically and free.
+
+The tick box stays greyed out until DNS has propagated. That is normal.
+
+
+TIMING
+------
+Propagation is usually 15-60 minutes, occasionally up to 24 hours.
+Check progress with:
+
+    nslookup stealthfyre.com
+    nslookup stealthfyre.com 8.8.8.8
+
+You want to see the 185.199.x.153 addresses, not 50.6.226.52.
+
+
+NOTE ON THE OLD SITE
+--------------------
+This change points the domain at the new landing page. It does not delete or
+harm anything. The full WordPress/WooCommerce backup in stealthfyre.tar.gz
+remains restorable at any time; if you later restore it to a cPanel host, you
+simply point these records at that host instead.
