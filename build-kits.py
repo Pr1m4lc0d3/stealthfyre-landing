@@ -40,7 +40,6 @@ KITS = [
             "kit in the range is cut from the same panel family, anything you buy later "
             "combines with it rather than replacing it.",
         ],
-        accessory="Grill and damper kit available.",
     ),
     dict(
         num="02", slug="deuce", name="Deuce", sku="GTO-SF-02DE",
@@ -57,9 +56,8 @@ KITS = [
             "extra material is what buys height: this is the smallest kit in the range "
             "that builds a proper tower.",
             "It still packs to under an inch thick. Two people cooking, or one person "
-            "who wants a real chimney draw, start here.",
+            "who wants a taller, hotter burn, start here.",
         ],
-        accessory="Grill and damper kit available.",
     ),
     dict(
         num="03", slug="origin", name="Origin", sku="",
@@ -78,7 +76,6 @@ KITS = [
             "windbreaks at whatever size the weather demands.",
             "This is the kit most people should start with if they intend to keep going.",
         ],
-        accessory="Grill and damper kit, potbelly stove and full chimney system available.",
     ),
     dict(
         num="04", slug="origin-deluxe", name="Origin Deluxe", sku="",
@@ -98,12 +95,11 @@ KITS = [
             "in a line, they grow by multiplication. This is the best value in the range "
             "by a wide margin.",
         ],
-        accessory="Grill and damper kit, potbelly stove and full chimney system available.",
     ),
     dict(
         num="05", slug="guerrilla-master", name="Guerrilla Master", sku="",
         img="kit-guerrilla-master.jpg",
-        alt="A large StealthFyre Guerrilla Master build with a potbelly body and chimney, "
+        alt="A large StealthFyre Guerrilla Master build with a tall stack on top, "
             "assembled in a wooded gully",
         tag="Everything the system can do.",
         list_price=589, launch_price=441,
@@ -115,12 +111,11 @@ KITS = [
         blurb=[
             "The Guerrilla Master is two Origin Deluxe kits in one box, and it reaches "
             "well over three dozen distinct configurations before you start counting "
-            "windbreaks. With the potbelly accessory it becomes an enclosed stove with a "
-            "chimney — a different object entirely from where the range starts.",
+            "windbreaks. It is the largest thing the panel system builds, and the only "
+            "kit that reaches the biggest configurations at all.",
             "It still packs into a box ten inches long. That is the whole argument for "
             "the panel system, in one kit.",
         ],
-        accessory="Grill and damper kit, potbelly stove door and full chimney system available.",
     ),
 ]
 
@@ -219,7 +214,6 @@ PAGE = """<meta charset="utf-8">
   <div class="wrap narrow">
     <h2 class="h2">About this kit</h2>
     {blurb}
-    <p class="accessory"><strong>Accessories.</strong> {accessory}</p>
     <p><a class="btn btn--ghost" href="/#kits">Compare all five kits</a></p>
   </div>
 </section>
@@ -286,7 +280,6 @@ def build(k):
         panels_note=" <span class=\"spec__q\">(being re-verified)</span>" if k["panels_note"] else "",
         deployed=k["deployed"], packed=k["packed"], weight=k["weight"],
         blurb="\n    ".join(f"<p>{html.escape(p)}</p>" for p in k["blurb"]),
-        accessory=html.escape(k["accessory"]),
     )
 
 
