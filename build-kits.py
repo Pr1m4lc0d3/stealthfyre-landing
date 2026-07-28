@@ -31,7 +31,7 @@ KITS = [
         assembles="at least 5", assembles_note="",
         panels="11", panels_note=True,
         deployed="17¾ × 9 × 4⅝ in", packed="9¼ × 5 × ½ in", weight="2 lb 15.25 oz",
-        buy="",
+        buy="https://buy.stripe.com/14A5kEblh9s56ltddy8ww00",
         blurb=[
             "The Bush Runner is the entry point to the panel system and the lightest "
             "thing in the range. It packs down to roughly the footprint of a paperback "
@@ -50,7 +50,7 @@ KITS = [
         assembles="at least 9", assembles_note="",
         panels="22", panels_note=True,
         deployed="17¾ × 17¾ × 4⅝ in", packed="9½ × 5¼ × 1 in", weight="6 lb 2 oz",
-        buy="",
+        buy="https://buy.stripe.com/eVqcN6751dIl25d1uQ8ww01",
         blurb=[
             "The Deuce is exactly twice the Bush Runner — the same panels, doubled. That "
             "extra material is what buys height: this is the smallest kit in the range "
@@ -68,7 +68,7 @@ KITS = [
         assembles="at least 9", assembles_note=" plus windbreaks of varying sizes",
         panels="20", panels_note=False,
         deployed="26½ × 9 × 9 in", packed="9½ × 5¼ × 1 in", weight="5 lb 1.95 oz",
-        buy="",
+        buy="https://buy.stripe.com/3cIaEY4WTfQtbFN8Xi8ww02",
         blurb=[
             "The Origin introduces the left and right tunnel faces, and with them a "
             "different class of stove. Tunnel configurations run longer and hotter than "
@@ -86,7 +86,7 @@ KITS = [
         assembles="at least 20", assembles_note=" plus windbreaks of varying sizes",
         panels="24", panels_note=False,
         deployed="26½ × 9 × 9 in", packed="9½ × 5¼ × 1 in", weight="5 lb 6.05 oz",
-        buy="",
+        buy="https://buy.stripe.com/5kQ14ofBx0VzfW37Te8ww03",
         blurb=[
             "The Origin Deluxe is the Origin plus four more panels — two tower walls and "
             "two mini tunnel faces. Four panels does not sound like much. It more than "
@@ -106,7 +106,7 @@ KITS = [
         assembles="well over three dozen", assembles_note=" plus windbreaks of varying sizes",
         panels="44", panels_note=True,
         deployed="26½ × 26½ × 9 in", packed="10 × 5¾ × 2 in", weight="10 lb 11.6 oz",
-        buy="",
+        buy="https://buy.stripe.com/5kQ7sMcpl6fT25d0qM8ww04",
         flagship=True,
         blurb=[
             "The Guerrilla Master is two Origin Deluxe kits in one box, and it reaches "
