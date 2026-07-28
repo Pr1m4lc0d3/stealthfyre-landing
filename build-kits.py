@@ -205,7 +205,7 @@ PAGE = """<meta charset="utf-8">
             <tr><th scope="row">Deployed</th><td>{deployed}</td></tr>
             <tr><th scope="row">Packed</th><td>{packed}</td></tr>
             <tr><th scope="row">Weight</th><td>{weight}</td></tr>
-            <tr><th scope="row">Material</th><td>24-gauge stainless steel</td></tr>
+            <tr><th scope="row">Material</th><td>24-gauge <strong>304 stainless steel</strong></td></tr>
             <tr><th scope="row">Made</th><td>By hand, in the USA</td></tr>
           </tbody>
         </table>
@@ -267,8 +267,8 @@ CTA_WAIT = """<a class="btn btn--primary btn--lg btn--block" href="/#waitlist"
 
 
 def build(k):
-    meta = (f"{k['name']} — a flat-pack 24-gauge stainless panel kit that assembles into "
-            f"{k['assembles']} different stoves. Made to order by hand in the USA.")
+    meta = (f"{k['name']} — a flat-pack 24-gauge 304 stainless panel kit that assembles "
+            f"into {k['assembles']} different stoves. Made to order by hand in the USA.")
     cta = (CTA_LIVE if k["buy"] else CTA_WAIT).format(
         buy=k["buy"], slug=k["slug"], name=k["name"], launch=k["launch_price"])
 
