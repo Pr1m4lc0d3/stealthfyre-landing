@@ -139,11 +139,14 @@ strong { color: var(--sf-white); font-weight: 700; }
   position: absolute; inset: 0;
   background: url("img/hero.jpg") center 40% / cover no-repeat;
 }
+/* Weighted to the LEFT, where the text sits — so the stove on the right stays
+   visible. An even scrim buried the product, which is the one thing the hero
+   photo is there to show. */
 .hero__scrim {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(14,14,15,.72) 0%, rgba(14,14,15,.55) 45%, rgba(14,14,15,.95) 100%),
-    linear-gradient(90deg, rgba(14,14,15,.80) 0%, rgba(14,14,15,.25) 70%);
+    linear-gradient(180deg, rgba(14,14,15,.60) 0%, rgba(14,14,15,.30) 45%, rgba(14,14,15,.93) 100%),
+    linear-gradient(90deg, rgba(14,14,15,.88) 0%, rgba(14,14,15,.55) 42%, rgba(14,14,15,.12) 78%);
 }
 .hero__inner { position: relative; max-width: 720px; }
 .hero__title { font-size: clamp(2.9rem, 8.5vw, 5.4rem); margin-bottom: 1.4rem; }
@@ -161,6 +164,10 @@ strong { color: var(--sf-white); font-weight: 700; }
 .section { padding: 5.5rem 0; border-top: 1px solid var(--sf-line); }
 .section--alt { background: #121315; }
 
+/* The nav is fixed, so an anchor jump would otherwise land the section heading
+   underneath it. Offset every jump target by the nav's height. */
+[id] { scroll-margin-top: 90px; }
+
 /* --- split ---------------------------------------------------------------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
 .split__media img { border: 1px solid var(--sf-line); border-radius: var(--radius); }
@@ -173,9 +180,12 @@ strong { color: var(--sf-white); font-weight: 700; }
 }
 
 /* --- kits ----------------------------------------------------------------- */
+/* Explicit column counts rather than auto-fit. With five kits, auto-fit landed on
+   four columns and orphaned Guerrilla Master alone on a second row — the flagship
+   kit stranded beside three empty slots. Five, three, two, one never orphans. */
 .kits {
   display: grid; gap: 1.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
 }
 .kit {
   background: var(--sf-panel);
@@ -257,10 +267,18 @@ strong { color: var(--sf-white); font-weight: 700; }
 .footer__privacy { font-size: .78rem; color: #4E5256; max-width: 46ch; margin: 0 auto; }
 
 /* --- responsive ----------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .kits { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 900px) {
   .split { grid-template-columns: 1fr; gap: 2.25rem; }
   .split__media { order: -1; }
   .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .kits { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 620px) {
