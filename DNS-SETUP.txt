@@ -1,73 +1,130 @@
-STEALTHFYRE.COM — DNS SETUP FOR GITHUB PAGES
-=============================================
+STEALTHFYRE.COM — GETTING THE DOMAIN POINTED AT THE NEW SITE
+=============================================================
 
-Registrar: Squarespace Domains
-Current state: A record still points at 50.6.226.52 (the dead cPanel host).
-               That record is stale and must be removed.
+The site is ALREADY BUILT AND LIVE on GitHub Pages:
 
+    Repo:  https://github.com/Pr1m4lc0d3/stealthfyre-landing
+    State: built and serving (verified 2026-07-27)
 
-STEP 1 — PUSH THE SITE FIRST
-----------------------------
-Create a public GitHub repo (suggested name: stealthfyre-landing) and push the
-contents of this folder to the `main` branch. In the repo:
-
-    Settings -> Pages -> Build and deployment
-      Source: Deploy from a branch
-      Branch: main   /  (root)
-
-The CNAME file in this folder tells GitHub the custom domain. Do the DNS change
-AFTER the site is live at <your-username>.github.io/stealthfyre-landing, so you
-can tell a DNS problem apart from a build problem.
+The only thing left is DNS. Until that changes, stealthfyre.com still resolves
+to the dead host and nobody can see the new page.
 
 
-STEP 2 — REPLACE THE DNS RECORDS
---------------------------------
-DELETE the existing A record pointing to 50.6.226.52.
+READ THIS FIRST — THE NAMESERVERS ARE THE REAL BLOCKER
+------------------------------------------------------
+Checked 2026-07-27:
 
-ADD these four A records for the apex (host: @ or blank):
+    stealthfyre.com   A     50.6.226.52          (dead host)
+    nameservers       NS    ns1.server-641651.conceptresults.com
+                            ns2.server-641651.conceptresults.com
+
+The domain is REGISTERED at Squarespace Domains, but DNS is still DELEGATED to
+the old host's nameservers. That means:
+
+  *** You cannot fix this by editing records at Squarespace. ***
+
+Squarespace is not answering DNS for this domain right now — those
+conceptresults.com nameservers are. Any A record you add at Squarespace will be
+ignored until delegation comes back.
+
+So this is a TWO-STAGE job. Stage 1 takes control back. Stage 2 points it at
+GitHub.
+
+
+STAGE 1 — TAKE DNS CONTROL BACK (do this first)
+-----------------------------------------------
+Log in to Squarespace Domains and find the nameserver setting for
+stealthfyre.com. It'll be under something like:
+
+    Domains -> stealthfyre.com -> DNS  (or "Nameservers" / "Advanced")
+
+Switch it from the custom conceptresults.com nameservers to SQUARESPACE
+DEFAULT NAMESERVERS. There is normally a button along the lines of
+"Use Squarespace nameservers" or "Reset to default".
+
+Once that is done, Squarespace's own DNS panel becomes authoritative and you
+can add records there.
+
+  Alternative, if you'd rather: point the nameservers at Cloudflare instead
+  (free) and manage DNS there. Either works. Squarespace is fewer steps
+  because the domain already lives there.
+
+Nameserver changes can take a few hours to propagate. Confirm with:
+
+    nslookup -type=ns stealthfyre.com 8.8.8.8
+
+Wait until that stops showing conceptresults.com before doing Stage 2.
+
+
+STAGE 2 — POINT IT AT GITHUB PAGES
+-----------------------------------
+In the DNS panel (Squarespace, or Cloudflare if you went that way):
+
+DELETE any A record pointing to 50.6.226.52.
+
+ADD four A records on the apex (host: @ or blank):
 
     A     @     185.199.108.153
     A     @     185.199.109.153
     A     @     185.199.110.153
     A     @     185.199.111.153
 
-ADD these four AAAA records (IPv6 — optional but recommended):
+ADD four AAAA records (IPv6 — optional but recommended):
 
     AAAA  @     2606:50c0:8000::153
     AAAA  @     2606:50c0:8001::153
     AAAA  @     2606:50c0:8002::153
     AAAA  @     2606:50c0:8003::153
 
-ADD one CNAME for www — replace <your-username> with your GitHub username:
+ADD one CNAME for www:
 
-    CNAME www   <your-username>.github.io
+    CNAME www   pr1m4lc0d3.github.io
 
-Leave MX records alone if you ever want email on this domain. Changing the A
-records does not affect mail.
+  (There is currently a CNAME sending www -> stealthfyre.com. Replace it with
+  the record above.)
 
-
-STEP 3 — ENABLE HTTPS
----------------------
-Back in Settings -> Pages, wait for the domain check to pass, then tick
-"Enforce HTTPS". The certificate is issued automatically and free.
-
-The tick box stays greyed out until DNS has propagated. That is normal.
+If Cloudflare: set the apex records to DNS ONLY (grey cloud), not proxied.
+Proxying in front of GitHub Pages breaks certificate issuance.
 
 
-TIMING
-------
-Propagation is usually 15-60 minutes, occasionally up to 24 hours.
-Check progress with:
+STAGE 3 — TURN ON HTTPS
+------------------------
+Once DNS resolves to the 185.199.x.153 addresses:
 
-    nslookup stealthfyre.com
+    GitHub repo -> Settings -> Pages -> tick "Enforce HTTPS"
+
+The tick box is greyed out until GitHub can verify the domain. That is normal.
+The certificate is issued automatically and is free.
+
+
+CHECKING PROGRESS
+-----------------
     nslookup stealthfyre.com 8.8.8.8
 
-You want to see the 185.199.x.153 addresses, not 50.6.226.52.
+You want 185.199.108.153 (and friends), not 50.6.226.52.
+Usually 15-60 minutes after the records are saved; occasionally up to 24 hours.
+
+You can confirm the SITE itself is fine at any time, independent of DNS:
+
+    curl -H "Host: stealthfyre.com" http://185.199.108.153/
+
+That fetches the real page straight from GitHub and bypasses DNS entirely.
+It already returns the live page.
 
 
-NOTE ON THE OLD SITE
---------------------
-This change points the domain at the new landing page. It does not delete or
-harm anything. The full WordPress/WooCommerce backup in stealthfyre.tar.gz
-remains restorable at any time; if you later restore it to a cPanel host, you
-simply point these records at that host instead.
+A NOTE ON EMAIL
+---------------
+The current MX record points at stealthfyre.com itself, which points at the
+dead host — so mail on this domain is already non-functional. Changing the A
+records does not break anything that currently works.
+
+If you ever want name@stealthfyre.com, you'll need real MX records. ImprovMX
+(free, forward-only) is what's already in use for sales@deliberon.com and
+would work the same way here.
+
+
+A NOTE ON THE OLD WORDPRESS SITE
+--------------------------------
+None of this touches stealthfyre.tar.gz. That full WooCommerce backup stays
+restorable. If you ever restore it to a cPanel host, you just point these same
+records at that host instead.
