@@ -28,7 +28,7 @@ KITS = [
             "brand stamped on the stainless panel",
         tag="The smallest way in.",
         list_price=175, launch_price=131,
-        assembles="5", assembles_note="",
+        assembles="at least 5", assembles_note="",
         panels="11", panels_note=True,
         deployed="17¾ × 9 × 4⅝ in", packed="9¼ × 5 × ½ in", weight="2 lb 15.25 oz",
         buy="",
@@ -48,7 +48,7 @@ KITS = [
         alt="A StealthFyre Deuce assembled as a tall tower stove beside a waterfall",
         tag="Two Bush Runners, one kit.",
         list_price=329, launch_price=247,
-        assembles="9", assembles_note="",
+        assembles="at least 9", assembles_note="",
         panels="22", panels_note=True,
         deployed="17¾ × 17¾ × 4⅝ in", packed="9½ × 5¼ × 1 in", weight="6 lb 2 oz",
         buy="",
@@ -67,7 +67,7 @@ KITS = [
         alt="A StealthFyre Origin assembled as a tunnel stove with a pot heating on top",
         tag="Where the tunnel faces arrive.",
         list_price=279, launch_price=209,
-        assembles="9", assembles_note=" plus windbreaks of varying sizes",
+        assembles="at least 9", assembles_note=" plus windbreaks of varying sizes",
         panels="20", panels_note=False,
         deployed="26½ × 9 × 9 in", packed="9½ × 5¼ × 1 in", weight="5 lb 1.95 oz",
         buy="",
@@ -86,7 +86,7 @@ KITS = [
         alt="A StealthFyre Origin Deluxe assembled into a multi-unit cooking layout beside a creek",
         tag="The range opens up.",
         list_price=319, launch_price=239,
-        assembles="20", assembles_note=" plus windbreaks of varying sizes",
+        assembles="at least 20", assembles_note=" plus windbreaks of varying sizes",
         panels="24", panels_note=False,
         deployed="26½ × 9 × 9 in", packed="9½ × 5¼ × 1 in", weight="5 lb 6.05 oz",
         buy="",
@@ -107,7 +107,7 @@ KITS = [
             "assembled in a wooded gully",
         tag="Everything the system can do.",
         list_price=589, launch_price=441,
-        assembles="three dozen", assembles_note=" plus windbreaks of varying sizes",
+        assembles="well over three dozen", assembles_note=" plus windbreaks of varying sizes",
         panels="44", panels_note=True,
         deployed="26½ × 26½ × 9 in", packed="10 × 5¾ × 2 in", weight="10 lb 11.6 oz",
         buy="",
@@ -126,7 +126,7 @@ KITS = [
 
 PAGE = """<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{name} — StealthFyre {tagline_t}</title>
+<title>{name} — StealthFyre</title>
 <meta name="description" content="{meta_desc}">
 <link rel="icon" href="/img/favicon.png">
 <link rel="canonical" href="https://stealthfyre.com/kits/{slug}.html">
@@ -179,7 +179,7 @@ PAGE = """<meta charset="utf-8">
         <h1 class="h2">{name}</h1>
         <p class="product__tag">{tag}</p>
 
-        <p class="product__cap">Assembles <strong>at least {assembles}</strong> different stoves{assembles_note}.</p>
+        <p class="product__cap">Assembles <strong>{assembles}</strong> different stoves{assembles_note}.</p>
 
         <div class="price">
           <span class="price__now">${launch}</span>
@@ -268,13 +268,12 @@ CTA_WAIT = """<a class="btn btn--primary btn--lg btn--block" href="/#waitlist"
 
 def build(k):
     meta = (f"{k['name']} — a flat-pack 24-gauge stainless panel kit that assembles into "
-            f"at least {k['assembles']} different stoves. Made to order by hand in the USA.")
+            f"{k['assembles']} different stoves. Made to order by hand in the USA.")
     cta = (CTA_LIVE if k["buy"] else CTA_WAIT).format(
         buy=k["buy"], slug=k["slug"], name=k["name"], launch=k["launch_price"])
 
     return PAGE.format(
         name=html.escape(k["name"]),
-        tagline_t="kit",
         meta_desc=html.escape(meta),
         slug=k["slug"], img=k["img"], alt=html.escape(k["alt"]),
         ga=GA_ID, num=k["num"],
