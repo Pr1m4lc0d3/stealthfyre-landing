@@ -36,6 +36,8 @@
   if (!/^G-X+$/.test(window.SF_GA_ID)) {
     gtag('js', new Date());
     gtag('config', window.SF_GA_ID);
+    // Roll-up property — same id on every site, so a cross-domain visit stays one session.
+    gtag('config', 'G-F7WLK0CG8X');
   }
 </script>
 </head>
